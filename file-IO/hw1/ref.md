@@ -1,0 +1,3 @@
+- https://www.geeksforgeeks.org/dup-dup2-linux-system-call/
+- https://www.geeksforgeeks.org/input-output-system-calls-c-create-open-close-read-write/
+- https://www.geeksforgeeks.org/input-output-system-calls-c-create-open-close-read-write/
