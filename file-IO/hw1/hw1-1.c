@@ -20,6 +20,10 @@ int main(int argc, char **argv, char **envp) {
 
     int append_pos = -1;
 
+    /**
+     * chech if the arguments contain "-a" or "--append" 
+     */
+
     for (int i=1; i<argc; i++) {
         if ((strcmp(argv[i], s0)) == 0 || strcmp(argv[i], s1) == 0) {
             append = true;
@@ -27,8 +31,17 @@ int main(int argc, char **argv, char **envp) {
         }
     }
 
-    //printf("append = %d\n", append);
+    /**
+     * allocate fds for each open files
+     */
+
     int *fds = malloc((argc-1) * sizeof(int));
+
+    /**
+     * open each file based on the flag, 
+     * and each file in the argument except append flag will only have one fd to access, 
+     * but if any file appears multiple times it will have multiple fds.
+     */
 
     for (int i=1; i<argc; i++) {
         if (i != append_pos) {
@@ -40,6 +53,10 @@ int main(int argc, char **argv, char **envp) {
             }
         }
     }
+
+    /** read input from standard input, including pipes and keyboard. 
+     * Then, for each fd, write the character according to their fd
+     */
     
     while (read(0, read_buf, 1) != 0) {
         for (int i=1; i<argc; i++) {
@@ -49,6 +66,10 @@ int main(int argc, char **argv, char **envp) {
             write(1, read_buf, 1);
         }
     }
+
+    /**
+     * close each fd
+     */
 
     for (int i=0; i<argc-1; i++) {
         close(fds[i]);
